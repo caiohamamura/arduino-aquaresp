@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "_default": {
+      "link": "aquaresp"
+    },
+    "aquaresp": {
+      "applicationId": "BJdo6uS8YPoD81r35X8QT5eyWNLZY7lMBQbXDsKu"
+    }
+  }
+}
