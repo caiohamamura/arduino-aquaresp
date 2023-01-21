@@ -1,0 +1,18 @@
+<html>
+  <body>
+    <form id="message-form">
+      <input type="text" id="message-input">
+      <button type="submit">Send</button>
+    </form>
+    <div id="received-messages"></div>
+
+    <form id="auth-form" style="display:none">
+      <label for="auth-token-input">Authentication Token:</label>
+      <input type="text" id="auth-token-input">
+      <button type="submit">Connect</button>
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.5.0/socket.io.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
