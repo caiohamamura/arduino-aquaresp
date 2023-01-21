@@ -1,4 +1,7 @@
-// Set the authentication token as a cookie
+// Display received messages
+const div = document.getElementById("received-messages");
+
+
 function setAuthCookie(token) {
     document.cookie = "key=" + token + ";max-age=34560000;";
 }
@@ -20,11 +23,12 @@ function getAuthCookie() {
     return "";
 }
 
-var authToken = getAuthCookie();
-var authForm = document.getElementById("auth-form");
-var authInput = document.getElementById("auth-token-input");
-var messageForm = document.getElementById("message-form");
-var socket;
+
+let authToken = getAuthCookie();
+let authForm = document.getElementById("auth-form");
+let authInput = document.getElementById("auth-token-input");
+let messageForm = document.getElementById("message-form");
+let socket;
 
 if (authToken === "") {
     authForm.style.display = "block";
@@ -41,32 +45,35 @@ if (authToken === "") {
 function connectSocket() {
     authForm.style.display = "none";
     messageForm.style.display = "block";
-    socket = io();
+    socket = new WebSocket(`ws://localhost`);
 
-    // Send message on form submit
-    messageForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        var input = document.getElementById("message-input");
-        socket.emit("message", input.value);
-        input.value = "";
-    });
-
-    // Display received messages
-    var div = document.getElementById("received-messages");
-
-
-    socket.on("connect", function (message) {
-        console.log('conectado');
-    });
-
-    socket.on("message", data => {
-        console.log('msg');
-        div.innerHTML += "<br>" + data;
-
-    });
-
-    socket.on("disconnect", function (message) {
-        console.log('desconectado');
-    });
+    configureSocket(socket);
 }
+
+function configureSocket(socket) {
+    socket.onopen = function () {
+        console.log('conectado');
+    };
+    
+    socket.onmessage = data => {
+        console.log(data);
+        let msg = data.data;
+        div.innerHTML += "<div>" + msg + "</div>";
+    };
+    
+    socket.onclose = function (message) {
+        console.log('desconectado');
+        connectSocket(localStorage['token']);
+    };
+}
+
+
+// Send message on form submit
+messageForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var input = document.getElementById("message-input");
+    socket.send(input.value);
+    input.value = "";
+});
+
 
