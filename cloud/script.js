@@ -45,7 +45,7 @@ if (authToken === "") {
 function connectSocket() {
     authForm.style.display = "none";
     messageForm.style.display = "block";
-    socket = new WebSocket(`ws://localhost`);
+    socket = new WebSocket(`ws://192.168.0.119`);
 
     configureSocket(socket);
 }

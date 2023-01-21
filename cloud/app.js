@@ -2,15 +2,16 @@ const http = require('http');
 const cors = require('cors');
 const WebSocket = require('ws');
 
+if (typeof app === 'undefined')
+{
+  app = require('express')();
+}
 var connectedDevices = {};
 
 const PORT = process.env.PORT || 80;
 const INDEX = '/index.html';
 const SCRIPT = '/script.js';
 
-if (typeof app === 'undefined') {
-  var app = require('express')();
-}
 app.use(cors());
 
 
@@ -80,8 +81,13 @@ wss.on('connection', (ws) => {
 
 
 app.get('/', function (req, res, next) {
+  if (req.query.name in connectedDevices)
+  {
+    connectedDevices[req.query.name].send(`gpio${req.query.port} ${req.query.value}`);
+  }
   res.sendFile(INDEX, { root: __dirname });
 });
+
 
 app.get('/script.js', function (req, res, next) {
   res.sendFile(SCRIPT, { root: __dirname });
