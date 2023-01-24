@@ -1,8 +1,4 @@
 (async () => {
-const { initializeApp } = await import("firebase/app");
-const { getDatabase, ref, set } = await import("firebase/database");
-const { getAuth, signInWithEmailAndPassword } = await import("firebase/auth");
-
 const http = require('http');
 
 const PORT = process.env.PORT || 80;
@@ -22,7 +18,10 @@ app.get('/script.js', function (req, res, next) {
   res.sendFile(SCRIPT, { root: __dirname });
 });
 
-app.get('/grande/:port/:value', async function (req, res, next) {
+app.get('/grande', async function (req, res, next) {
+  const { initializeApp } = await import("firebase/app");
+  const { getDatabase, ref, set } = await import("firebase/database");
+  const { getAuth, signInWithEmailAndPassword } = await import("firebase/auth");
   const firebaseConfig = {
     apiKey: "AIzaSyD1fPoERfI700g03S_Omsk_RRZBliyDLso",
     authDomain: "aquaresp.firebaseapp.com",
@@ -36,7 +35,7 @@ app.get('/grande/:port/:value', async function (req, res, next) {
   const database = getDatabase(app);
   const auth = getAuth();
   await signInWithEmailAndPassword(auth, process.env.user, process.env.password);
-  await set(ref(database, `${auth.currentUser.uid}/message`), `gpio${req.params.port} ${req.params.value}`);
+  await set(ref(database, `${auth.currentUser.uid}/message`), `gpio${req.query.port} ${req.query.value}`);
   auth.signOut();
   res.send(200);
 });
