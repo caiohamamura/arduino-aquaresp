@@ -1,18 +1,26 @@
 <html>
-  <body>
-    <form id="message-form">
-      <input type="text" id="message-input">
-      <button type="submit">Send</button>
-    </form>
-    <div id="received-messages"></div>
 
-    <form id="auth-form" style="display:none">
-      <label for="auth-token-input">Authentication Token:</label>
-      <input type="text" id="auth-token-input">
-      <button type="submit">Connect</button>
-    </form>
+<body>
+  <form id="message-form">
+    <input type="text" id="message-input">
+    <button type="submit">Send</button>
+  </form>
+  <div id="received-messages"></div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.5.0/socket.io.js"></script>
-    <script src="script.js"></script>
-  </body>
+  <form id="auth-form" style="display:none">
+    <label for="user-name">Email:</label>
+    <input type="text" id="user-name"><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password">
+    <button type="submit">Connect</button>
+  </form>
+  <div><button id="sign-out" onclick="signOut()" style="display:none;position:fixed;top:7px;right:7px">Sign Out</button></div>
+
+  
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="script.js"></script>
+</body>
+
 </html>
